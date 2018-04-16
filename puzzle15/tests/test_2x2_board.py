@@ -1,15 +1,17 @@
 import random
 import unittest
 
-import game
+import puzzle15.tiling
+from puzzle15 import game, tiling
 
 
 class Test2x2Board(unittest.TestCase):
+    """ tests a given small board by fixing a seed"""
 
     def setUp(self):
 
         random.seed(0)
-        tiles = game.init_tiles(4)
+        tiles = puzzle15.tiling.init_tiles(tiling.id_2_num, 4)
         self.board = game.Board(tiles, 2, 2, 3)
         self.original_x, self.original_y = self.board.empty_tile_position
         print(str(self.board))
@@ -24,7 +26,7 @@ class Test2x2Board(unittest.TestCase):
 
     def test_move_left(self):
         self.board.move_empty_tile_left()
-        self.assertEqual(self.board.empty_tile_position, (self.original_x, self.original_y+1))
+        self.assertEqual(self.board.empty_tile_position, (self.original_x, self.original_y-1))
 
     def test_move_right_illegal(self):
         self.board.move_empty_tile_right()
@@ -49,6 +51,7 @@ class Test2x2Board(unittest.TestCase):
         self.assertFalse(self.board.is_done())
         self.board.move_empty_tile_down()
         self.assertTrue(self.board.is_done())
+
 
 if __name__ == '__main__':
     unittest.main()
